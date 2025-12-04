@@ -30,6 +30,15 @@ variable "aws_region" {
   default = "us-east-1"
 }
 
+packer {
+  required_plugins {
+    amazon = {
+      source  = "github.com/hashicorp/amazon"
+      version = "~> 1"
+    }
+  }
+}
+
 data "amazon-ami" "source_ami" {
   filters = {
     name = "${var.aws_source_ami}"
