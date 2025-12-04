@@ -1,8 +1,7 @@
 ##Install the needed packages and enable the services(MariaDb, Apache)
-sudo yum update -y
-sudo yum install git -y
-sudo amazon-linux-extras install -y lamp-mariadb10.2-php7.2 php7.2
-sudo yum install -y httpd mariadb-server
+sudo dnf update -y
+sudo dnf install git -y
+sudo dnf install mariadb105-server httpd wget php-mysqlnd php-fpm php-mysqli php-json php php-devel -y
 sudo systemctl start httpd
 sudo systemctl enable httpd
 sudo systemctl is-enabled httpd

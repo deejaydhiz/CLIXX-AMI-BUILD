@@ -1,13 +1,13 @@
 variable "aws_source_ami" {
-  default = "amzn2-ami-hvm-2.0.20210326.0-x86_64-gp2"
+  default = "al2023-ami-2023*-x86_64"
 }
 
 variable "aws_instance_type" {
-  default = "t2.small"
+  default = "t2.micro"
 }
 
 variable "ami_name" {
-  default = "ami-stack-51"
+  default = "ami-stack-14"
 }
 
 variable "component" {
@@ -17,13 +17,13 @@ variable "component" {
 
 variable "aws_accounts" {
   type = list(string)
-  # default= ["577701061234","560089993749"]
-  default= ["577701061234"]
+  default = ["651974166650", "186769093804"]
+  # default = ["651974166650"]
 }
 
 variable "ami_regions" {
-  type = list(string)
-  default =["us-east-1"]
+  type    = list(string)
+  default = ["us-east-1"]
 }
 
 variable "aws_region" {
@@ -35,7 +35,7 @@ data "amazon-ami" "source_ami" {
     name = "${var.aws_source_ami}"
   }
   most_recent = true
-  owners      = ["336528460023","amazon"]
+  owners      = ["336528460023", "amazon"]
   region      = "${var.aws_region}"
 }
 
@@ -51,15 +51,15 @@ data "amazon-ami" "source_ami" {
 
 
 source "amazon-ebs" "amazon_ebs" {
-  # assume_role {
-  #   role_arn     = "arn:aws:iam::560089993749:role/Engineer"
-  # }
-  ami_name                = "${var.ami_name}"
-  ami_regions             = "${var.ami_regions}"
-  ami_users               = "${var.aws_accounts}"
-  snapshot_users          = "${var.aws_accounts}"
-  encrypt_boot            = false
-  instance_type           = "${var.aws_instance_type}"
+  assume_role {
+    role_arn     = "arn:aws:iam::186769093804:role/Engineer"
+  }
+  ami_name       = "${var.ami_name}"
+  ami_regions    = "${var.ami_regions}"
+  ami_users      = "${var.aws_accounts}"
+  snapshot_users = "${var.aws_accounts}"
+  encrypt_boot   = false
+  instance_type  = "${var.aws_instance_type}"
   launch_block_device_mappings {
     delete_on_termination = true
     device_name           = "/dev/xvda"
@@ -67,11 +67,11 @@ source "amazon-ebs" "amazon_ebs" {
     volume_size           = 10
     volume_type           = "gp2"
   }
-  region                  = "${var.aws_region}"
-  source_ami              = "${data.amazon-ami.source_ami.id}"
-  ssh_pty                 = true
-  ssh_timeout             = "5m"
-  ssh_username            = "ec2-user"
+  region       = "${var.aws_region}"
+  source_ami   = "${data.amazon-ami.source_ami.id}"
+  ssh_pty      = true
+  ssh_timeout  = "5m"
+  ssh_username = "ec2-user"
 }
 
 
