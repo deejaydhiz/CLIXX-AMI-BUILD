@@ -48,7 +48,6 @@ pipeline {
             steps {
                 sh """
                 cd instances
-                // terraform destroy -auto-approve || true
                 terraform plan -out=tfplan -input=false
                 """                          
             }

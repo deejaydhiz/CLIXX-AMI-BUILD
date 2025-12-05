@@ -1,29 +1,58 @@
-resource "aws_inspector_resource_group" "stack_res" {
-  tags = {
-    Name = "Test_Instance"
-    Env  = "dev"
+# resource "aws_inspector_resource_group" "stack_res" {
+#   tags = {
+#     Name = "Test_Instance"
+#     Env  = "dev"
+#   }
+#   depends_on = [aws_instance.application_server]
+# }
+
+# resource "aws_inspector_assessment_target" "assessment" {
+#   name               = "Hardening Assessment"
+#   resource_group_arn = aws_inspector_resource_group.stack_res.arn
+# }
+
+# resource "aws_inspector_assessment_template" "stack_hardening_rules" {
+#   name       = "stack_rules"
+#   target_arn = aws_inspector_assessment_target.assessment.arn
+#   duration   = 3600
+
+#   rules_package_arns = [
+#     "arn:aws:inspector:us-east-1:055081916963:rulespackage/0-gEjTy7T7",
+#     "arn:aws:inspector:us-east-1:055081916963:rulespackage/0-rExsr2X8",
+#     "arn:aws:inspector:us-east-1:055081916963:rulespackage/0-PmNV0Tcd",
+#     "arn:aws:inspector:us-east-1:055081916963:rulespackage/0-R01qwB5Q",
+#   ]
+# }
+
+# output "assessment_template_arn" {
+#   value = aws_inspector_assessment_template.stack_hardening_rules.arn
+# }
+
+resource "aws_inspector2_enabler" "stack_scan" {
+  account_ids    = ["055081916963"]
+  resource_types = ["EC2"]
+}
+
+resource "aws_inspector2_cis_scan_configuration" "stack_res" {
+  scan_name      = "terraform-cis-scan-stack-res"
+  security_level = "LEVEL_1" # or "LEVEL_2"
+
+  targets {
+    account_ids = ["055081916963"]
+    target_resource_tags = {
+      "Name" = ["Test_Instance"]
+    }
   }
-  depends_on = [aws_instance.application_server]
-}
 
-resource "aws_inspector_assessment_target" "assessment" {
-  name               = "Hardening Assessment"
-  resource_group_arn = aws_inspector_resource_group.stack_res.arn
-}
+  schedule {
+    # This example creates a one-time scan that runs immediately upon 'terraform apply'
+    one_time {}
 
-resource "aws_inspector_assessment_template" "stack_hardening_rules" {
-  name       = "stack_rules"
-  target_arn = aws_inspector_assessment_target.assessment.arn
-  duration   = 3600
-
-  rules_package_arns = [
-    "arn:aws:inspector:us-east-1:055081916963:rulespackage/0-gEjTy7T7",
-    "arn:aws:inspector:us-east-1:055081916963:rulespackage/0-rExsr2X8",
-    "arn:aws:inspector:us-east-1:055081916963:rulespackage/0-PmNV0Tcd",
-    "arn:aws:inspector:us-east-1:055081916963:rulespackage/0-R01qwB5Q",
-  ]
-}
-
-output "assessment_template_arn" {
-    value=aws_inspector_assessment_template.stack_hardening_rules.arn
-}
+    # Alternatively, you could use a recurring monthly scan:
+    /*
+    monthly {
+      day        = "SAT"
+      start_time = "03:00"
+    }
+    */
+  }
