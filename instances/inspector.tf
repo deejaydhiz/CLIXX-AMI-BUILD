@@ -56,3 +56,4 @@ resource "aws_inspector2_cis_scan_configuration" "stack_res" {
     }
     */
   }
+}
