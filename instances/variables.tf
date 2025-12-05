@@ -18,7 +18,7 @@ variable "region"{
 }
 
 variable "vpc_id"{
-    default = true
+    default = "vpc-0d1bb3bbceb1c2bce"
 }
 
 variable "subnets" {
