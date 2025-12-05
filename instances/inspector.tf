@@ -32,28 +32,3 @@ resource "aws_inspector2_enabler" "stack_scan" {
   account_ids    = ["055081916963"]
   resource_types = ["EC2"]
 }
-
-resource "aws_inspector2_cis_scan_configuration" "stack_res" {
-  scan_name      = "terraform-cis-scan-stack-res"
-  security_level = "LEVEL_1" # or "LEVEL_2"
-
-  targets {
-    account_ids = ["055081916963"]
-    target_resource_tags = {
-      "Name" = ["Test_Instance"]
-    }
-  }
-
-  schedule {
-    # This example creates a one-time scan that runs immediately upon 'terraform apply'
-    one_time {}
-
-    # Alternatively, you could use a recurring monthly scan:
-    /*
-    monthly {
-      day        = "SAT"
-      start_time = "03:00"
-    }
-    */
-  }
-}
