@@ -65,9 +65,10 @@ pipeline {
 
         stage('Build Vulnerability Report'){
             steps {
-                sh '''
+                sh """
                 cd instances
-                '''  
+                cd ~
+                """
                 slackSend (color: '#FFFF00', message: "ENDING DEPLOYMENT: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")                        
             }
         }
