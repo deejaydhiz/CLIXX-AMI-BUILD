@@ -67,7 +67,7 @@ pipeline {
             steps {
                 sh """
                 cd instances
-                cd ~
+                terraform destroy -auto-approve
                 """
                 slackSend (color: '#FFFF00', message: "ENDING DEPLOYMENT: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")                        
             }
