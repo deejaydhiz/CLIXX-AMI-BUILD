@@ -6,7 +6,7 @@ pipeline {
 
     environment {
         PATH = "${PATH}:${getTerraformPath()}"
-        AMI_ID="stack-ami-${BUILD_NUMBER}"
+        AMI_ID = "stack-ami-${BUILD_NUMBER}"
         VERSION = "1.0.${BUILD_NUMBER}"
     }
     stages{
@@ -26,7 +26,6 @@ pipeline {
                 cd images
                 packer init -upgrade .
                 packer validate image.pkr.hcl
-                sed -i "s/ami-stack-'[0-9]*$'/'${AMI_ID}'/" ./image.pkr.hcl 
                 export PACKER_LOG=1
                 export PACKER_LOG_PATH=$WORKSPACE/packer.log
                 /usr/bin/packer build -force image.pkr.hcl 

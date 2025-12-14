@@ -28,7 +28,7 @@
 #   value = aws_inspector_assessment_template.stack_hardening_rules.arn
 # }
 
-resource "aws_inspector2_enabler" "stack_scan" {
-  account_ids    = ["055081916963"]
+resource "aws_inspector2_enabler" "img_scan" {
+  account_ids    = ["186769093804"]
   resource_types = ["EC2"]
 }
