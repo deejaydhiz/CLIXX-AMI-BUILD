@@ -1,5 +1,5 @@
 variable "aws_source_ami" {
-  default = "al2023-ami-2023*-x86_64"
+  default = "ami-stack-14"
 }
 
 variable "aws_instance_type" {
