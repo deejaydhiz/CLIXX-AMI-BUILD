@@ -1,5 +1,5 @@
 variable "aws_source_ami" {
-  default = "ami-stack-14"
+  default = "al2023-ami-2023*-x86_64"
 }
 
 variable "aws_instance_type" {
@@ -18,7 +18,7 @@ variable "component" {
 variable "aws_accounts" {
   type = list(string)
   # default = ["651974166650", "055081916963"]
-  default = ["186769093804"]
+  default = ["186769093804", "055081916963"]
 }
 
 variable "ami_regions" {
